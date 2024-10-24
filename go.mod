@@ -1,4 +1,4 @@
-module go.carloscarnero.stream/logger
+module go.carloscarnero.stream/go-logger
 
 go 1.23.2
 

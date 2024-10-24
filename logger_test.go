@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"go.carloscarnero.stream/logger"
+	"go.carloscarnero.stream/go-logger"
 )
 
 func TestNewLogger_valid(t *testing.T) {
