@@ -6,4 +6,42 @@
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
+Retrieve the package with:
+
+```console
+go get -u -v go.carloscarnero.stream/go-logger
+```
+
+and then it will be ready to use in your project:
+
+```go
+package main
+
+import (
+    "os"
+
+    "go.carloscarnero.stream/go-logger"
+)
+
+func main() {
+    // l will be a pointer to a slog.Logger instance, from the standard
+    // library. Note that no error handling is included in this example.
+    l, _ := logger.New(os.Stdout, "TEXT", "INFO", false)
+
+    l.Info("Hello, world!")
+}
+```
+
+Running the above program will send `Hello, world!` to the standard output:
+
+```console
+level=INFO msg="Hello, world!"
+```
+
+> Note that the module path is `go.carloscarnero.stream/go-logger`,
+> however, the package is called `logger`. This is not very elegant but it
+> is an artifact of having to name the [source code repository][REPO] in
+> that particular way.
+
 [LOGGER]: https://pkg.go.dev/log/slog#Logger
+[REPO]: https://github.com/carloscarnero/go-logger

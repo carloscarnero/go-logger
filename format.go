@@ -8,8 +8,14 @@ import (
 	"strings"
 )
 
-// Format returns the requested format as an upper cased string, if it is
-// a valid format name. Currently, only JSON and TEXT are considered valid.
+// Format returns the requested format name transformed to upper case, also
+// as a string, if it is a valid format name. Currently, only be JSON and
+// TEXT are accepted as valid. In this case, the error value will be nil.
+//
+// If an invalid format name is passed, the returned string is not the
+// empty string, but its transformation into upper case, as if it were
+// valid. Regardless, it should probably be ignored since the error value
+// will not be nil.
 func Format(format string) (string, error) {
 	f := strings.ToUpper(format)
 	switch f {

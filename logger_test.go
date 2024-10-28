@@ -15,91 +15,85 @@ import (
 	"go.carloscarnero.stream/go-logger"
 )
 
-func TestNewLogger_valid(t *testing.T) {
-	tcs := []struct {
-		output io.Writer
-		format string
-		level  string
-	}{
-		{os.Stderr, "TEXT", "DEBUG"},
-		{os.Stderr, "JSON", "DEBUG"},
-		{os.Stderr, "TEXT", "INFO"},
-		{os.Stderr, "JSON", "INFO"},
-		{os.Stderr, "TEXT", "WARN"},
-		{os.Stderr, "JSON", "WARN"},
-		{os.Stderr, "TEXT", "ERROR"},
-		{os.Stderr, "JSON", "ERROR"},
+func TestNew_valid(t *testing.T) {
+	// The following will loop over all the test outputs, valid format
+	// names, and valid level names. It is, in other words, a
+	// multiplication of test cases.
+	for _, output := range outputs {
+		for _, format := range formats_valid {
+			for _, level := range levels_valid {
+				t.Run(fmt.Sprintf("output=%s, format=%s level=%s", output.name, format, level.name), func(t *testing.T) {
+					assert.NotPanics(t, func() {
+						actual, err := logger.New(output.writer, format, level.name, true)
 
-		{io.Discard, "TEXT", "DEBUG"},
-		{io.Discard, "JSON", "DEBUG"},
-		{io.Discard, "TEXT", "INFO"},
-		{io.Discard, "JSON", "INFO"},
-		{io.Discard, "TEXT", "WARN"},
-		{io.Discard, "JSON", "WARN"},
-		{io.Discard, "TEXT", "ERROR"},
-		{io.Discard, "JSON", "ERROR"},
+						require.NotNil(t, actual)
 
-		{nil, "TEXT", "DEBUG"},
-		{nil, "JSON", "DEBUG"},
-		{nil, "TEXT", "INFO"},
-		{nil, "JSON", "INFO"},
-		{nil, "TEXT", "WARN"},
-		{nil, "JSON", "WARN"},
-		{nil, "TEXT", "ERROR"},
-		{nil, "JSON", "ERROR"},
-	}
-	for _, tc := range tcs {
-		t.Run(fmt.Sprintf("format:%s,level:%s", tc.format, tc.level), func(t *testing.T) {
-			assert.NotPanics(t, func() {
-				actual, err := logger.New(tc.output, tc.format, tc.level, true)
-
-				require.NotNil(t, actual)
-
-				require.NoError(t, err)
-			})
-		})
+						require.NoError(t, err)
+					})
+				})
+			}
+		}
 	}
 }
 
-func TestNewLogger_invalid(t *testing.T) {
-	tcs := []struct {
-		output io.Writer
-		format string
-		level  string
-	}{
-		{os.Stderr, "", ""},
-		{os.Stderr, "", "trace"},
-		{os.Stderr, "", "CRITICAL"},
-		{os.Stderr, "YAML", "warning"},
-		{os.Stderr, "YAML", "TRACE"},
-		{os.Stderr, "YAML", "INFORMATIONAL"},
-		{os.Stderr, "yaml", "SPECIAL"},
-		{os.Stderr, "yaml", "none"},
-		{os.Stderr, "yaml", "informational"},
-		{os.Stderr, "syslog", "warning"},
-		{os.Stderr, "syslog", "trace"},
-		{os.Stderr, "syslog", "informational"},
-		{os.Stderr, "PLAIN", "TRACE"},
-		{os.Stderr, "PLAIN", "none"},
-		{os.Stderr, "PLAIN", "CRITICAL"},
-		{os.Stderr, "plain", "INFORMATIONAL"},
-		{os.Stderr, "plain", "SPECIAL"},
-		{os.Stderr, "plain", "none"},
-		{os.Stderr, "XML", "special"},
-		{os.Stderr, "XML", "warning"},
-		{os.Stderr, "XML", "TRACE"},
-	}
-	for _, tc := range tcs {
-		t.Run(fmt.Sprintf("format:%s,level:%s", tc.format, tc.level), func(t *testing.T) {
-			assert.NotPanics(t, func() {
-				actual, err := logger.New(tc.output, tc.format, tc.level, true)
+func TestNew_invalid(t *testing.T) {
+	// The following will loop over all the test outputs, invalid format
+	// names, and valid level names. It is, in other words, a
+	// multiplication of test cases. Note that the format name is given
+	// first when calling the New function, which means that there will be
+	// no need to test both invalid format names and invalid level names.
+	for _, output := range outputs {
+		for _, format := range formats_invalid {
+			for _, level := range levels_valid {
+				t.Run(fmt.Sprintf("output=%s, format=%s level=%s", output.name, format, level.name), func(t *testing.T) {
+					assert.NotPanics(t, func() {
+						actual, err := logger.New(output.writer, format, level.name, true)
 
-				require.Nil(t, actual)
+						require.Nil(t, actual)
 
-				require.NotNil(t, err)
-			})
-		})
+						require.NotNil(t, err)
+					})
+				})
+			}
+		}
 	}
+
+	// The following will loop over all the test outputs, valid format
+	// names, and invalid level names. It is, in other words, a
+	// multiplication of test cases.
+	for _, output := range outputs {
+		for _, format := range formats_valid {
+			for _, level := range levels_invalid {
+				t.Run(fmt.Sprintf("output=%s, format=%s level=%s", output.name, format, level), func(t *testing.T) {
+					assert.NotPanics(t, func() {
+						actual, err := logger.New(output.writer, format, level, true)
+
+						require.Nil(t, actual)
+
+						require.NotNil(t, err)
+					})
+				})
+			}
+		}
+	}
+}
+
+// The following variables, output, hold the io.Writer instances to use on
+// the test functions. They exist as package-level variables because they
+// will be used in other tests as well. Note that the variable names are
+// snake cased just for symmetry with the test function names.
+
+var outputs []struct {
+	name   string
+	writer io.Writer
+} = []struct {
+	name   string
+	writer io.Writer
+}{
+	{"os.Stdout", os.Stdout},
+	{"os.Stderr", os.Stderr},
+	{"io.Discard", io.Discard},
+	{"nil", nil},
 }
 
 func ExampleNew_info() {
