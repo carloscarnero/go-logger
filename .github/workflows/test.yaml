@@ -1,0 +1,30 @@
+name: Test and coverage report
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Distribution source checkout
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: go.mod
+
+    - name: Retrieve Go dependencies
+      run: |
+        go mod download
+
+    - name: Run tests and generate coverage report
+      run: |
+        go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+    - name: Upload coverage report to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}

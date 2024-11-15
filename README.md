@@ -5,6 +5,7 @@
 > there is probably no reason why you should actually use this 🤷
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
+[![codecov](https://codecov.io/github/carloscarnero/go-logger/graph/badge.svg?token=Bg1xghG6HS)](https://codecov.io/github/carloscarnero/go-logger)
 
 Retrieve the package with:
 
@@ -24,8 +25,8 @@ import (
 )
 
 func main() {
-    // l will be a pointer to a slog.Logger instance, from the standard
-    // library. Note that no error handling is included in this example.
+    // l will be a pointer to a standard library slog.Logger instance. Note
+    // that no error handling is included in this example.
     l, _ := logger.New(os.Stdout, "TEXT", "INFO", false)
 
     l.Info("Hello, world!")
@@ -38,10 +39,9 @@ Running the above program will send `Hello, world!` to the standard output:
 level=INFO msg="Hello, world!"
 ```
 
-> Note that the module path is `go.carloscarnero.stream/go-logger`,
-> however, the package is called `logger`. This is not very elegant but it
-> is an artifact of having to name the [source code repository][REPO] in
-> that particular way.
+> [!NOTE]
+> While the module path is `go.carloscarnero.stream/go-logger`, the package
+> is called `logger`. This is not very elegant but results from having to
+> name the source code repository in that particular way.
 
 [LOGGER]: https://pkg.go.dev/log/slog#Logger
-[REPO]: https://github.com/carloscarnero/go-logger
