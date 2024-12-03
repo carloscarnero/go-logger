@@ -4,7 +4,7 @@
 > this independent package. Unless you, somehow, find this convenient,
 > there is probably no reason why you should actually use this 🤷
 
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/license/mit)
 [![codecov](https://codecov.io/github/carloscarnero/go-logger/graph/badge.svg?token=Bg1xghG6HS)](https://codecov.io/github/carloscarnero/go-logger)
 
 Retrieve the package with:
