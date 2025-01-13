@@ -1,15 +1,13 @@
 // logger: simple and opinionated log/Slog.Logger instance creator
-// Copyright 2024 by authors and contributors (see AUTHORS file)
+// Copyright 2024-2025 by authors and contributors (see AUTHORS file)
 
 package logger
 
 import (
-	"errors"
+	"fmt"
 	"io"
 	"log/slog"
 )
-
-var ErrLogger = errors.New("can't create logger instance")
 
 // New creates an instance of [slog.Logger] that sends its output to the
 // given writer, using the given format, and with the specified level.
@@ -21,11 +19,11 @@ func New(output io.Writer, format string, level string, timestamps bool) (*slog.
 
 	f, err := Format(format)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("can not create logger: %s", err)
 	}
 	l, err := Level(level)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("can not create logger: %s", err)
 	}
 
 	opts := &slog.HandlerOptions{

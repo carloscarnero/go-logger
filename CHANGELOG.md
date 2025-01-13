@@ -10,6 +10,17 @@
 Changes to this project will be documented in this file, in a format based
 on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.1] - 2025-01-13
+
+### Changed
+
+* Simplified the generated error values on invalid conditions. Removed from
+  the public the `ErrLogger` package variable (this type of action *should*
+  bring about a new major version but an analysis of the dependents of this
+  library provided that it was safe to do so.)
+
+* Included `2025` in the source code copyright notices.
+
 ## [1.0.0] - 2024-12-03
 
 This release is considered the first stable release. It is also when this
@@ -18,4 +29,5 @@ life cycle so as not to polute too much the human-readable history (more
 details, most of them boring, are always available in the actual Git
 commit history.)
 
+[1.0.1]: https://github.com/carloscarnero/go-logger/releases/tag/v1.0.1
 [1.0.0]: https://github.com/carloscarnero/go-logger/releases/tag/v1.0.0

@@ -1,5 +1,5 @@
 // logger: simple and opinionated log/Slog.Logger instance creator
-// Copyright 2024 by authors and contributors (see AUTHORS file)
+// Copyright 2024-2025 by authors and contributors (see AUTHORS file)
 
 package logger
 
@@ -8,14 +8,11 @@ import (
 	"strings"
 )
 
-// Format returns the requested format name transformed to upper case, also
-// as a string, if it is a valid format name. Currently, only be JSON and
-// TEXT are accepted as valid. In this case, the error value will be nil.
-//
-// If an invalid format name is passed, the returned string is not the
-// empty string, but its transformation into upper case, as if it were
-// valid. Regardless, it should probably be ignored since the error value
-// will not be nil.
+// Format normalizes the parameter transforming it to upper case, and
+// validates it (currently, only JSON and TEXT are accepted.) If valid,
+// this normalized value is returned as well as a nil error value. If
+// invalid, an empty string will be returned along with a non nil error
+// value (variable since it will contain the requested format as-is).
 func Format(format string) (string, error) {
 	f := strings.ToUpper(format)
 	switch f {
@@ -23,6 +20,6 @@ func Format(format string) (string, error) {
 		return f, nil
 
 	default:
-		return f, fmt.Errorf("%w: invalid format: %s", ErrLogger, format)
+		return "", fmt.Errorf("invalid log format: %s", format)
 	}
 }

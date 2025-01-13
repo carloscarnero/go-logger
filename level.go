@@ -1,5 +1,5 @@
 // logger: simple and opinionated log/Slog.Logger instance creator
-// Copyright 2024 by authors and contributors (see AUTHORS file)
+// Copyright 2024-2025 by authors and contributors (see AUTHORS file)
 
 package logger
 
@@ -9,13 +9,12 @@ import (
 	"strings"
 )
 
-// Level returns the requested format as an instance of [slog.Level], if it
-// is a valid level name. Currently, only DEBUG, INFO, WARN, and ERROR are
-// accepted as valid. In this case, the error value will be nil.
-//
-// If an invalid level name is passed, the returned level value is INFO,
-// which is the zero value for that type.Regardless, it should probably be
-// ignored since the error value will not be nil.
+// Level normalizes the parameter transforming it to upper case, and
+// validates it (currently, only DEBUG, INFO, WARN, and ERROR are accepted.)
+// If valid, a corresponding instance of [slog.Level] is returned as well
+// as a nil error value. If invalid, [slog.LevelInfo] is returned along
+// with a non nil error value (variable since it will contain the requested
+// level as-is).
 func Level(name string) (slog.Level, error) {
 	n := strings.ToUpper(name)
 	switch n {
@@ -32,6 +31,6 @@ func Level(name string) (slog.Level, error) {
 		return slog.LevelError, nil
 
 	default:
-		return slog.LevelInfo, fmt.Errorf("%w: invalid level: %s", ErrLogger, name)
+		return slog.LevelInfo, fmt.Errorf("invalid log level: %s", name)
 	}
 }

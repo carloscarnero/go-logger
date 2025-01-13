@@ -1,5 +1,5 @@
 // logger: simple and opinionated log/Slog.Logger instance creator
-// Copyright 2024 by authors and contributors (see AUTHORS file)
+// Copyright 2024-2025 by authors and contributors (see AUTHORS file)
 
 package logger_test
 
@@ -13,43 +13,6 @@ import (
 
 	"go.carloscarnero.stream/go-logger"
 )
-
-func TestLevel_valid(t *testing.T) {
-	for _, tc := range levels_valid {
-		t.Run(fmt.Sprintf("level=%q", tc.name), func(t *testing.T) {
-			expected := tc.level
-			actual, err := logger.Level(tc.name)
-
-			require.Equal(t, expected, actual)
-
-			require.NoError(t, err)
-		})
-	}
-}
-
-func TestLevel_invalid(t *testing.T) {
-	for _, tc := range levels_invalid {
-		t.Run(fmt.Sprintf("level=%q", tc), func(t *testing.T) {
-			expected := slog.LevelInfo
-			actual, err := logger.Level(tc)
-
-			// Except in some cases, hopefully properly documented, it is
-			// expected the caller to ignore the return value when the
-			// returned error is not nil. This test, however, makes sure
-			// that the internal implementation still complies with the
-			// library's interface in this case.
-			//
-			// The expected level is INFO, which happily coincides with the
-			// zero value; however, this is actually enforced by the
-			// implementation.
-			require.Equal(t, expected, actual)
-
-			if assert.Error(t, err) {
-				require.Equal(t, err, fmt.Errorf("%w: invalid level: %s", logger.ErrLogger, tc))
-			}
-		})
-	}
-}
 
 // The following variables, levels_valid and levels_invalid, hold the test
 // cases, valid and invalid respectively. They exist as package-level
@@ -118,4 +81,41 @@ var levels_invalid []string = []string{
 	"special",
 	"SPeciAL",
 	"spECIal",
+}
+
+func TestLevel_valid(t *testing.T) {
+	for _, tc := range levels_valid {
+		t.Run(fmt.Sprintf("level=%q", tc.name), func(t *testing.T) {
+			expected := tc.level
+			actual, err := logger.Level(tc.name)
+
+			require.Equal(t, expected, actual)
+
+			require.NoError(t, err)
+		})
+	}
+}
+
+func TestLevel_invalid(t *testing.T) {
+	for _, tc := range levels_invalid {
+		t.Run(fmt.Sprintf("level=%q", tc), func(t *testing.T) {
+			expected := slog.LevelInfo
+			actual, err := logger.Level(tc)
+
+			// Except in some cases, hopefully properly documented, it is
+			// expected the caller to ignore the return value when the
+			// returned error is not nil. This test, however, makes sure
+			// that the internal implementation still complies with the
+			// library's interface in this case.
+			//
+			// The expected level is INFO, which happily coincides with the
+			// zero value; however, this is actually enforced by the
+			// implementation.
+			require.Equal(t, expected, actual)
+
+			if assert.Error(t, err) {
+				require.Equal(t, err, fmt.Errorf("invalid log level: %s", tc))
+			}
+		})
+	}
 }
