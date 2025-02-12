@@ -8,11 +8,12 @@ import (
 	"strings"
 )
 
-// Format normalizes the parameter transforming it to upper case, and
-// validates it (currently, only JSON and TEXT are accepted.) If valid,
-// this normalized value is returned as well as a nil error value. If
-// invalid, an empty string will be returned along with a non nil error
-// value (variable since it will contain the requested format as-is).
+// Format normalizes and validates a format string. Normalization will
+// transform the parameter into uppercase, while validation will make sure
+// that only JSON and TEXT are accepted. If validation succeeds, the
+// normalized value will be returned and a nil value for the error.
+// Otherwise, the result is the empty string and a non-nil error (variable
+// since it will contain the requested format as-is.)
 func Format(format string) (string, error) {
 	f := strings.ToUpper(format)
 	switch f {

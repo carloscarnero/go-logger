@@ -39,6 +39,23 @@ Running the above program will send `Hello, world!` to the standard output:
 level=INFO msg="Hello, world!"
 ```
 
+The first parameter to the `New` method is the writer where all output will
+be sent to, which is nothing more than a `io.Writer`. This can also be used
+to suppress all output if the parameter is either `nil` or `io.Discard`.
+
+The second parameter is the logging format, which can be either `JSON` or
+`TEXT`. The third parameter is the logging level, which can be either
+`DEBUG`, `INFO`, `WARN`, `ERROR`, or `NONE`. This last one will also
+suppress all output.
+
+> Why two mechanisms to supress or discard output? In many cases, defining
+> the actual writer is a source code concern and maybe not very flexible.
+> On the other hand, defining the level may be easier as it is common to
+> have this value defined in environment variables, for instance.
+
+The fourth parameter allows to supress timestamps in the output, which can
+be useful in debugging, development, and testing scenarios.
+
 > [!NOTE]
 > While the module path is `go.carloscarnero.stream/go-logger`, the package
 > is called `logger`. This is not very elegant but results from having to

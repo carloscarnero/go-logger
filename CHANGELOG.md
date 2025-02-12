@@ -10,6 +10,19 @@
 Changes to this project will be documented in this file, in a format based
 on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.0] - 2025-02-12
+
+### Added
+
+* Accepts the `NONE` level to discard all and any output. It is
+  functionally equivalent to using `nil` or `io.Discard` as the writer of
+  the logger instance.
+
+### Changed
+
+* The Go version required to build is 1.24.0 since that's the version that
+  introduced `slog.DiscardHandler`.
+
 ## [1.0.1] - 2025-01-13
 
 ### Changed
@@ -29,5 +42,6 @@ life cycle so as not to polute too much the human-readable history (more
 details, most of them boring, are always available in the actual Git
 commit history.)
 
+[1.1.0]: https://github.com/carloscarnero/go-logger/releases/tag/v1.1.0
 [1.0.1]: https://github.com/carloscarnero/go-logger/releases/tag/v1.0.1
 [1.0.0]: https://github.com/carloscarnero/go-logger/releases/tag/v1.0.0

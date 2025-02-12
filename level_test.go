@@ -31,22 +31,26 @@ var levels_valid []struct {
 	name  string
 	level slog.Level
 }{
-	{"DEBUG", slog.LevelDebug},
-	{"debug", slog.LevelDebug},
-	{"deBUg", slog.LevelDebug},
-	{"debUG", slog.LevelDebug},
-	{"INFO", slog.LevelInfo},
-	{"info", slog.LevelInfo},
-	{"iNFo", slog.LevelInfo},
-	{"inFO", slog.LevelInfo},
-	{"WARN", slog.LevelWarn},
-	{"warn", slog.LevelWarn},
-	{"wARn", slog.LevelWarn},
-	{"warN", slog.LevelWarn},
-	{"ERROR", slog.LevelError},
-	{"error", slog.LevelError},
-	{"ErrOR", slog.LevelError},
-	{"errOR", slog.LevelError},
+	{"DEBUG", logger.LevelDebug},
+	{"debug", logger.LevelDebug},
+	{"deBUg", logger.LevelDebug},
+	{"debUG", logger.LevelDebug},
+	{"INFO", logger.LevelInfo},
+	{"info", logger.LevelInfo},
+	{"iNFo", logger.LevelInfo},
+	{"inFO", logger.LevelInfo},
+	{"WARN", logger.LevelWarn},
+	{"warn", logger.LevelWarn},
+	{"wARn", logger.LevelWarn},
+	{"warN", logger.LevelWarn},
+	{"ERROR", logger.LevelError},
+	{"error", logger.LevelError},
+	{"ErrOR", logger.LevelError},
+	{"errOR", logger.LevelError},
+	{"NONE", logger.LevelNone},
+	{"none", logger.LevelNone},
+	{"NOne", logger.LevelNone},
+	{"NonE", logger.LevelNone},
 }
 
 var levels_invalid []string = []string{
@@ -61,12 +65,6 @@ var levels_invalid []string = []string{
 	"warning",
 	"WArniNG",
 	"warNING",
-	"NONE",
-	"none",
-	"NOne",
-	"NonE",
-	"nONe",
-	"noNE",
 	"CRITICAL",
 	"critical",
 	"CRITical",
@@ -99,7 +97,7 @@ func TestLevel_valid(t *testing.T) {
 func TestLevel_invalid(t *testing.T) {
 	for _, tc := range levels_invalid {
 		t.Run(fmt.Sprintf("level=%q", tc), func(t *testing.T) {
-			expected := slog.LevelInfo
+			expected := logger.LevelInfo
 			actual, err := logger.Level(tc)
 
 			// Except in some cases, hopefully properly documented, it is
