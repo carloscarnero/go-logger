@@ -10,12 +10,12 @@ import (
 )
 
 // New creates an instance of [slog.Logger] that sends its output to the
-// given writer, using the given format, and with the specified level.
-// Output lines include the event timestamp if the given parameter is set.
-// If either an invalid format or level is requested, a nil is returned
-// as well as an error (variable since it will contain the root cause.)
+// given writer, with the given format, and at the specified level. Output
+// lines include the event timestamp if the given parameter is set. If
+// either an invalid format or level is requested, a nil is returned as
+// well as an error (variable since it will contain the root cause.)
 //
-// Completely silent behavior can be achieved either by using a nil writer,
+// Silent logging behavior can be achieved either by using a nil writer,
 // [io.Discard], or by requesting the NONE level.
 func New(output io.Writer, format string, level string, timestamps bool) (*slog.Logger, error) {
 	f, err := Format(format)
@@ -50,6 +50,8 @@ func New(output io.Writer, format string, level string, timestamps bool) (*slog.
 		return slog.New(slog.NewTextHandler(output, opts)), nil
 
 	default:
-		panic("impossible condition")
+		// This would not be a client error, but a failure of this library.
+		// No error is returned, and a panic is generated instead.
+		panic(fmt.Sprintf("invalid log format: %s", f))
 	}
 }

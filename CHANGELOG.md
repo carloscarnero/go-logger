@@ -10,6 +10,12 @@
 Changes to this project will be documented in this file, in a format based
 on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.1] - 2025-05-20
+
+### Changed
+
+* Updated the Go version to 1.24.3.
+
 ## [1.1.0] - 2025-02-12
 
 ### Added
@@ -42,6 +48,7 @@ life cycle so as not to polute too much the human-readable history (more
 details, most of them boring, are always available in the actual Git
 commit history.)
 
+[1.1.1]: https://github.com/carloscarnero/go-logger/releases/tag/v1.1.1
 [1.1.0]: https://github.com/carloscarnero/go-logger/releases/tag/v1.1.0
 [1.0.1]: https://github.com/carloscarnero/go-logger/releases/tag/v1.0.1
 [1.0.0]: https://github.com/carloscarnero/go-logger/releases/tag/v1.0.0
