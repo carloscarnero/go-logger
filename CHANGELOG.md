@@ -10,6 +10,22 @@
 Changes to this project will be documented in this file, in a format based
 on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.0] - 2026-01-29
+
+### Added
+
+* Added the supporting functions `NormalizeFormat` and `NormalizeLevel`
+  while rewriting the code to use them.
+
+### Changed
+
+* Updated the Go version to 1.25.6.
+
+### Deprecated
+
+* `Format` should not be used in the future; `NormalizeFormat` is
+  functionally identical.
+
 ## [1.1.2] - 2025-10-31
 
 ### Changed
@@ -54,6 +70,7 @@ life cycle so as not to polute too much the human-readable history (more
 details, most of them boring, are always available in the actual Git
 commit history.)
 
+[1.2.0]: https://github.com/carloscarnero/go-logger/releases/tag/v1.2.0
 [1.1.2]: https://github.com/carloscarnero/go-logger/releases/tag/v1.1.2
 [1.1.1]: https://github.com/carloscarnero/go-logger/releases/tag/v1.1.1
 [1.1.0]: https://github.com/carloscarnero/go-logger/releases/tag/v1.1.0

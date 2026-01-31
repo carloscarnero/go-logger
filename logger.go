@@ -1,5 +1,5 @@
 // logger: simple and opinionated log/Slog.Logger instance creator
-// Copyright 2024-2025 by authors and contributors (see AUTHORS file)
+// Copyright 2024-2026 by authors and contributors (see AUTHORS file)
 
 package logger
 
@@ -20,11 +20,11 @@ import (
 func New(output io.Writer, format string, level string, timestamps bool) (*slog.Logger, error) {
 	f, err := Format(format)
 	if err != nil {
-		return nil, fmt.Errorf("can not create logger: %s", err)
+		return nil, fmt.Errorf("can not create logger: %w", err)
 	}
 	l, err := Level(level)
 	if err != nil {
-		return nil, fmt.Errorf("can not create logger: %s", err)
+		return nil, fmt.Errorf("can not create logger: %w", err)
 	}
 
 	// If no output is requested, then the discard handler is used, which
@@ -42,16 +42,13 @@ func New(output io.Writer, format string, level string, timestamps bool) (*slog.
 			return a
 		},
 	}
+	var handler slog.Handler
 	switch f {
 	case "JSON":
-		return slog.New(slog.NewJSONHandler(output, opts)), nil
+		handler = slog.NewJSONHandler(output, opts)
 
 	case "TEXT":
-		return slog.New(slog.NewTextHandler(output, opts)), nil
-
-	default:
-		// This would not be a client error, but a failure of this library.
-		// No error is returned, and a panic is generated instead.
-		panic(fmt.Sprintf("invalid log format: %s", f))
+		handler = slog.NewTextHandler(output, opts)
 	}
+	return slog.New(handler), nil
 }

@@ -1,5 +1,5 @@
 // logger: simple and opinionated log/Slog.Logger instance creator
-// Copyright 2024-2025 by authors and contributors (see AUTHORS file)
+// Copyright 2024-2026 by authors and contributors (see AUTHORS file)
 
 package logger_test
 
